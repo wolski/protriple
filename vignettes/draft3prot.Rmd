@@ -1,0 +1,544 @@
+---
+title: "Looking at FragPipe TMT ouptuts"
+output: 
+  pdf_document: 
+    toc: yes
+date: "2022-12-15"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 6)
+```
+
+
+# annotation.tsv
+
+```{r}
+library(tidyverse)
+library(prolfqua)
+
+FP = 19
+if ( FP == 18 ) {
+  sampleCol <- "sample-"
+  input_folder <- "../inst/extdata/FragPipe18_GUI_TMT10/"
+  
+} else {
+  sampleCol <- "sample_"
+  input_folder <- "../inst/extdata/FragPipe19_GUI_TMT10/"
+  
+}
+
+print(input_folder)
+annot <- read.table(file.path(input_folder, "annotation_annotation.txt"),header = FALSE, sep = " " )
+colnames(annot) <- c("channel", "sample")
+annot <- annot |> dplyr::mutate(channel = paste0("channel_", channel))
+
+A = c("channel_126", "channel_127N", "channel_127C", "channel_128N", "channel_128C")
+annot <- annot |> mutate(group = case_when(channel %in% A ~ "A", TRUE ~ "B"))
+annot <- annot |> unite("sampleName", group, channel, sep = "_", remove=FALSE)
+
+```
+
+
+
+# Philosopher ouptuts
+
+## protein.tsv
+
+
+
+
+```{r pressure, echo=FALSE}
+
+prot <- read_tsv(file.path(input_folder,"protein.tsv"))
+prot <- prot |> select(all_of(c("Protein")),starts_with(sampleCol))
+protl <- prot |> pivot_longer(starts_with(sampleCol), values_to = "abundance", names_to = "sample")
+protl <- dplyr::inner_join(annot , protl )
+
+```
+
+```{r}
+
+table <- prolfqua::AnalysisTableAnnotation$new()
+table$hierarchy["Protein"] <- "Protein"
+table$factors["group"] = "group"
+table$fileName = "sample"
+
+table$set_response("abundance")
+config <- prolfqua::AnalysisConfiguration$new(table)
+data <- prolfqua::setup_analysis(protl, config)
+ldata <- LFQData$new(data, config)
+ldata$hierarchy_counts()
+
+abd <- ldata$data |> group_by(sampleName) |> summarize(sum_abundance = sum(abundance))
+```
+
+```{r fig.cap = "Barplot showing Total abundances per file for protein.tsv"}
+
+abd |> ggplot(aes(x = sampleName, y = sum_abundance)) + 
+  ggplot2::geom_bar(stat = "identity", color = "black", fill = "white" ) + 
+  geom_text(aes(label = round(sum_abundance,digits= 0)), vjust=-0.3, size=3.5 , angle = 90) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+```{r fig.cap = "Density of log2 transformed data."}
+ldata$remove_small_intensities()
+pl <- ldata$get_Transformer()$log2()$lfq$get_Plotter()
+pl$intensity_distribution_density()
+
+```
+
+```{r fig.cap = "PCA plot."}
+pl$pca()
+
+
+hm <- pl$heatmap()
+
+```
+
+
+```{r, fig.cap = "Heatmap log2 trasformed data and row scaling."}
+hm
+```
+
+
+\pagebreak
+
+
+## peptide.tsv
+
+
+```{r look_at_peptide_tsv}
+peptides <- read_tsv(file = file.path(input_folder,"peptide.tsv"))
+peptides <- peptides |> dplyr::select(
+  dplyr::all_of(c("Peptide", "Protein", "Protein ID",   "Entry Name",   "Gene", "Protein Description")),
+  dplyr::starts_with(sampleCol))
+
+peptides <- peptides |> tidyr::pivot_longer(dplyr::starts_with(sampleCol), names_to = "sample", values_to = "abundance")
+
+
+if (FP == 18) {
+  peptides <- peptides |> mutate(channel = gsub("^sample\\-01", "channel_", sample))
+  annot$sample <- NULL
+  peptides <- dplyr::inner_join(annot , peptides, by = "channel" )
+} else{
+  peptides$channel |> unique()
+  
+  peptides <- peptides |> mutate(channel = gsub("^sample\\.01", "channel_", sample))
+  peptides <- dplyr::inner_join(annot , peptides, by = c("sample" =  "channel" ))
+
+}
+
+
+```
+
+
+
+```{r}
+
+table <- prolfqua::AnalysisTableAnnotation$new()
+table$hierarchy["Protein"] <- "Protein"
+table$hierarchy["Peptide"] <- "Peptide"
+table$factors["group"] = "group"
+table$fileName = "channel"
+table$sampleName = "sampleName"
+table$set_response("abundance")
+config <- prolfqua::AnalysisConfiguration$new(table)
+data <- prolfqua::setup_analysis(peptides, config)
+ldata <- LFQData$new(data, config)
+ldata$hierarchy_counts()
+
+abd <- ldata$data |> dplyr::group_by(sampleName) |> dplyr::summarize(sum_abundance = sum(abundance))
+
+
+abd |> ggplot(aes(x = sampleName, y = sum_abundance)) + 
+  ggplot2::geom_bar(stat = "identity", color = "black", fill = "white" ) + 
+  geom_text(aes(label = round(sum_abundance,digits= 0)), vjust=-0.3, size=3.5 , angle = 90) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+
+```
+
+
+
+```{r, fig.cap = "Intensity distribution log2 transformed peptide abundances."}
+ldata$remove_small_intensities()
+pl <- ldata$get_Transformer()$log2()$lfq$get_Plotter()
+
+pl$intensity_distribution_density()
+
+```
+
+```{r fig.cap = "PCA plot using peptide abundances (log2)."}
+pl$pca()
+hm <- pl$heatmap()
+
+```
+
+
+```{r fig.cap = "Heatmap log2 peptide abundances."}
+
+hm
+```
+
+\pagebreak
+
+## estimate protein intensities using median polish
+
+- protein intensities are estimates from log2 peptide abundances using tukeys median polish
+- protein intensities are centered and scaled
+
+```{r}
+ldata$remove_small_intensities()
+ldata$hierarchy_counts()
+#tmp <- ldata$filter_proteins_by_peptide_count()
+#ldata$hierarchy_counts()
+
+llog2 <- ldata$get_Transformer()$log2()$lfq
+agg <- llog2$get_Aggregator()
+agg$medpolish()
+protl <- agg$lfq_agg
+```
+
+```{r}
+protl$hierarchy_counts()
+protl <- protl$get_Transformer()$robscale()$lfq
+
+pl <- protl$get_Plotter()
+```
+
+```{r fig.cap = "Intensity distribution protein abundances estimated using median polish."}
+pl$intensity_distribution_density()
+```
+
+```{r fig.cap = "PCA plot log2 and scaled protein abundances."}
+pl$pca()
+naheat <- pl$NA_heatmap()
+```
+
+```{r fig.cap = "Missing values heatmap - protein."}
+naheat
+hm <- pl$heatmap()
+```
+
+```{r fig.cap = "Hatmap protein abundances log2."}
+hm
+```
+
+\pagebreak
+
+## Compute fold changes between group A and B
+
+```{r}
+
+model <- strategy_lm( paste0(protl$response(), "~ group"))
+
+Ct <- c("AvsB" = "groupA - groupB")
+tmp <- build_model(protl, model)
+ctr <- Contrasts$new(tmp, Ct)
+tmp <- ctr$get_Plotter()
+tmp$volcano()$FDR
+```
+
+
+
+```{r}
+dd <- ctr$get_contrasts()
+
+dd <- dd |> filter(!grepl("contam_", Protein)) 
+dd <- dd |> separate(Protein, c(NA, "species") , sep = "_", remove = FALSE) 
+dd <- dd |> filter(species %in% c("HUMAN", "ECOLI", "SOYBN"))
+
+ggplot(dd, aes(x = species, y = diff)) + geom_violin() + geom_boxplot(width = 0.07)
+
+```
+
+```{r}
+ggplot(dd, aes(x = avgAbd, y = diff, color = species)) + geom_point(alpha = 0.6) + theme_bw()
+
+```
+
+
+```{r}
+
+dd |> group_by(species) |>
+  dplyr::summarise(
+    n = n(), 
+    median = median(diff),
+    mean = mean(diff),
+    min = min(diff),
+    max = max(diff),
+    quant25 = quantile(diff, 0.25),
+    quant75 = quantile(diff, 0.75),
+    interquartileRange = quant75 - quant25  ) |> knitr::kable(digits = 2)
+
+```
+
+
+
+```{r}
+par(mfrow = c(1,2))
+dd <- dd |> mutate(TP = (! species %in% c("HUMAN","ECOLI") ))
+pr <- pROC::roc(dd$TP, dd$statistic, partial.auc = c(1,0.9))
+plot(pr, main = "SOYBN")
+print("SOYBN")
+print(pr)
+
+dd <- dd |> mutate(TP = (! species %in% c("HUMAN","SOYBN") ))
+pr <- pROC::roc(dd$TP, dd$statistic, partial.auc = c(1,0.9))
+plot(pr, main = "ECOLI")
+print("ECOLI")
+print(pr)
+
+```
+
+
+
+\pagebreak
+
+# TMT- integrator
+
+## Protein tmt-integrator None
+
+```{r}
+protNone <- read_tsv(file.path(input_folder,"/tmt-report/abundance_protein_None.tsv"))
+#head(protNone)
+proteinNone_long <- pivot_longer(protNone, starts_with(sampleCol), values_to = "abundance", names_to = "channel")
+#head(proteinNone_long)
+protTMT_integrator <- inner_join(annot, proteinNone_long, by=c("sample" = "channel"))
+#head(protTMT_integrator)
+```
+
+
+```{r}
+table <- prolfqua::AnalysisTableAnnotation$new()
+table$hierarchy["Protein"] <- "Index"
+table$factors["group"] = "group"
+table$fileName = "sample"
+table$set_response("abundance")
+config <- prolfqua::AnalysisConfiguration$new(table)
+
+data <- prolfqua::setup_analysis(protTMT_integrator, config)
+ldata <- LFQData$new(data, config)
+ldata$hierarchy_counts()
+#ldata$remove_small_intensities(threshold = 15)
+#ldata$hierarchy_counts()
+
+abd <- ldata$data |> group_by(sampleName) |> summarize(sum_abundance = sum(abundance, na.rm = TRUE))
+abd |> ggplot(aes(x = sampleName, y = sum_abundance)) + 
+  ggplot2::geom_bar(stat = "identity", color = "black", fill = "white" ) + 
+  geom_text(aes(label = round(sum_abundance,digits= 0)), vjust=-0.3, size=3.5 , angle = 90) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r fig.cap = "intensity distribution tmt-integrator none."}
+pl <- ldata$get_Plotter()
+pl$intensity_distribution_density()
+
+hm <- pl$heatmap()
+```
+
+
+
+```{r fig.cap = "heatmap tmt-integrator None"}
+hm
+```
+
+\pagebreak
+
+## Protein tmt-integrator MD
+
+
+```{r}
+protNone <- read_tsv(file.path(input_folder,"/tmt-report/abundance_protein_MD.tsv"))
+proteinNone_long <- pivot_longer(protNone, starts_with(sampleCol), values_to = "abundance", names_to = "channel")
+protTMT_integrator <- inner_join(annot, proteinNone_long, by=c("sample" = "channel"))
+```
+
+```{r}
+fasta <- prozor::readPeptideFasta("../inst/extdata/FragPipe18_GUI_TMT10/Hum-Ecoli-Soy-finalDB-22k.fasta")
+ds <- data.frame(ids = names(fasta))
+ds <- ds |> separate(ids, c(NA, "ID", "Name"), sep = "\\|", remove = FALSE) 
+protTMT <- inner_join(ds , protTMT_integrator,  by = c("ID"=  "Index"))
+
+```
+
+```{r}
+table <- prolfqua::AnalysisTableAnnotation$new()
+table$hierarchy["Protein"] <- "ids"
+table$factors["group"] = "group"
+table$fileName = "sample"
+table$set_response("abundance")
+config <- prolfqua::AnalysisConfiguration$new(table)
+
+data <- prolfqua::setup_analysis(protTMT, config)
+ldata <- LFQData$new(data, config)
+ldata$hierarchy_counts()
+```
+
+
+```{r}
+abd <- ldata$data |> group_by(sampleName) |> 
+  summarize(sum_abundance = sum(abundance, na.rm = TRUE), median_abd = median(abundance, na.rm =TRUE), sd = sd(abundance - median(abundance, na.rm =TRUE), na.rm = TRUE))
+knitr::kable(abd, digits = 2)
+```
+
+```{r}
+abd |> ggplot(aes(x = sampleName, y = sum_abundance)) + 
+  ggplot2::geom_bar(stat = "identity", color = "black", fill = "white" ) + 
+  geom_text(aes(label = round(sum_abundance,digits= 0)), vjust=-0.3, size=3.5 , angle = 90) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+```{r}
+pl <- ldata$get_Plotter()
+pl$pca()
+```
+
+```{r}
+pl$intensity_distribution_density()
+hm <- pl$heatmap()
+```
+
+
+
+```{r}
+hm
+```
+
+
+\pagebreak
+
+### fit model
+
+
+
+```{r}
+model <- strategy_lm( paste0(ldata$response(), "~ group"))
+
+Ct <- c("AvsB" = "groupA - groupB")
+tmp <- build_model(ldata, model)
+ctr <- Contrasts$new(tmp, Ct)
+dd <- ctr$get_contrasts()
+
+tmp <- ctr$get_Plotter()
+tmp$volcano()$FDR
+```
+
+
+
+```{r}
+dd <- dd |> filter(!grepl("contam_", Protein)) 
+
+dd <- dd |> separate(Protein, c(NA, "species") , sep = "_", remove = FALSE) 
+ggplot(dd, aes(x = species, y = diff)) + geom_violin() + geom_boxplot(width = 0.07)
+```
+
+
+```{r}
+ggplot(dd, aes(x = avgAbd, y = diff, color = species)) + geom_point(alpha = 0.6) + theme_bw()
+ggplot(dd, aes(x = rank(avgAbd), y = diff, color = species)) + geom_point(alpha = 0.6) + theme_bw()
+
+```
+
+
+```{r}
+dd |> group_by(species) |>
+  summarise(
+    n = n(), 
+    median = median(diff),
+    mean = mean(diff),
+    min = min(diff),
+    max = max(diff),
+    quant25 = quantile(diff, 0.25),
+    quant75 = quantile(diff, 0.75),
+    interquartileRange = quant75 - quant25  ) |> knitr::kable(digits = 2)
+
+```
+
+
+```{r}
+par(mfrow = c(1,2))
+dd <- dd |> mutate(TP = (! species %in% c("HUMAN","ECOLI") ))
+pr <- pROC::roc(dd$TP, dd$statistic, partial.auc = c(1,0.9))
+plot(pr, main = "SOYBN")
+print("SOYBN")
+print(pr)
+
+dd <- dd |> mutate(TP = (! species %in% c("HUMAN","SOYBN") ))
+pr <- pROC::roc(dd$TP, dd$statistic, partial.auc = c(1,0.9))
+plot(pr, main = "ECOLI")
+print("ECOLI")
+print(pr)
+
+```
+
+
+\pagebreak
+
+## Protein tmt-integrator GN
+
+```{r}
+protNone <- read_tsv(file.path(input_folder,"/tmt-report/abundance_protein_GN.tsv"))
+#head(protNone)
+proteinNone_long <- pivot_longer(protNone, starts_with(sampleCol), values_to = "abundance", names_to = "channel")
+#head(proteinNone_long)
+protTMT_integrator <- inner_join(annot, proteinNone_long, by=c("sample" = "channel"))
+#head(protTMT_integrator)
+```
+
+
+```{r}
+table <- prolfqua::AnalysisTableAnnotation$new()
+table$hierarchy["Protein"] <- "Index"
+table$factors["group"] = "group"
+table$fileName = "sample"
+table$set_response("abundance")
+config <- prolfqua::AnalysisConfiguration$new(table)
+
+data <- prolfqua::setup_analysis(protTMT_integrator, config)
+ldata <- LFQData$new(data, config)
+ldata$hierarchy_counts()
+
+```
+
+
+```{r}
+abd <- ldata$data |> group_by(sampleName) |> summarize(sum_abundance = sum(abundance, na.rm = TRUE), median_abd = median(abundance, na.rm =TRUE), sd = sd(abundance - median(abundance, na.rm =TRUE), na.rm = TRUE))
+knitr::kable(abd, digits = 2)
+```
+
+
+```{r}
+
+abd |> ggplot(aes(x = sampleName, y = sum_abundance)) + 
+  ggplot2::geom_bar(stat = "identity", color = "black", fill = "white" ) + 
+  geom_text(aes(label = round(sum_abundance,digits= 0)), vjust=-0.3, size=3.5 , angle = 90) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+pl <- ldata$get_Plotter()
+```
+
+```{r}
+pl$pca()
+```
+
+```{r}
+pl$intensity_distribution_density()
+hm <- pl$heatmap()
+```
+
+```{r}
+hm
+```
+
+
+
+
+
+
+

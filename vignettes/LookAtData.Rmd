@@ -1,0 +1,77 @@
+---
+title: "Handling psm.tsv file"
+output: html_document
+date: "2022-12-13"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+```
+
+# Tester
+
+```{r}
+library(tidyverse)
+psm <- readr::read_tsv("../inst/extdata/FragPipe19_GUI_TMT10/psm.tsv")
+colnames(psm)
+plot(psm$Retention, psm$`Calibrated Observed Mass`,col=psm$Charge , pch = ".")
+
+
+x <- which(colnames(psm) == "Quan Usage")
+colnamesQuan <- colnames(psm)[(x + 1):ncol(psm)]
+
+psm_relevant <- psm |> dplyr::select(
+  dplyr::all_of(
+    c(c("Spectrum",
+      "Spectrum File",
+      "Peptide",
+      "Modified Peptide",
+      "Charge",
+      "Intensity",
+      "Purity",
+      "Protein",
+      "Protein Description",
+      "PeptideProphet Probability",
+      "Protein Description",
+      "Retention",
+      "Calibrated Observed Mass",
+      "Charge"),colnamesQuan) ))
+psm_long <- psm_relevant |> tidyr::pivot_longer( tidyselect::all_of(colnamesQuan), values_to = "abundance", names_to = "channel")
+
+
+```
+
+
+```{r}
+
+
+
+
+
+
+nrpsmPerPeptide <- psm_long |> dplyr::select(dplyr::all_of(c("Protein","Peptide", "Modified Peptide", "Spectrum"))) |>
+  distinct() |>
+  group_by(across(c("Protein","Peptide", "Modified Peptide"))) |>
+  summarize(nrPSM = n())
+
+library(prolfqua)
+atable <- AnalysisTableAnnotation$new()
+atable$hierarchy["Protein"] <- "Protein"
+atable$hierarchy["Spectrum"] <- "Spectrum"
+atable$factors["channel"] <- "channel"
+atable$fileName <- "filename"
+
+
+
+```

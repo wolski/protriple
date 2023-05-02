@@ -1,0 +1,405 @@
+---
+title: "Benchmark Spectronaut, FragPipe DIANN and DIANN data"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+## Running Code
+
+
+```{r}
+library(readxl)
+
+allSpecnautXLSX <- grep(".xlsx$",dir("/Users/witoldwolski/__checkout/prolfquapp/inst/application/FragPipeDIA/", recursive = TRUE, full.names = TRUE), value = TRUE)
+names <- gsub(".+FragPipeDIA//", "",allSpecnautXLSX) 
+names <- gsub("/DE_.*","",names)
+namesShort <- c("DIANN_Staggered", "DIANN", "FP_DIANN_Staggered", "FP_DIANN")
+allSpecnautXLSX <- as.list(allSpecnautXLSX)
+names(allSpecnautXLSX) <- namesShort
+
+
+allSpecnautXLSXspec <- grep(".xlsx$",dir("/Users/witoldwolski/__checkout/prolfquapp/inst/application/specnaut/", recursive = TRUE, full.names = TRUE), value = TRUE)
+names <- gsub(".+specnaut///", "",allSpecnautXLSXspec) 
+names <- gsub("\\.xls/DE_.*","",names)
+allSpecnautXLSXspec <- as.list(allSpecnautXLSXspec)
+
+namesShort <- c("SPECNAUT_NoImpute_Staggered", "SPECNAUT_default_Staggered", "SPECNAUT_default")
+names(allSpecnautXLSXspec) <- namesShort
+
+
+diff_exp_analysis <- lapply(allSpecnautXLSXspec, read_xlsx, sheet = 5)
+protVariance <- lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9)
+
+```
+
+# Number of proteins
+
+Number of DEA results when also Proteins with single peptide.
+
+```{r}
+
+library(tidyverse)
+names(diff_exp_analysis)[2]
+
+x1 <- diff_exp_analysis[[2]]
+```
+
+
+
+```{r}
+x2 <- x1 |> dplyr::filter(nrPeptides > 1)
+x2table <- x2$modelName |> table()
+```
+
+
+
+```{r, echo = FALSE}
+tripleProt <- function(data, isTP = "ECOLI", idcol = "fasta.id", keep_other = FALSE) {
+  tmp <- data |>
+    ungroup() |>
+    mutate(species  = case_when(
+      grepl("HUMAN", !!sym(idcol)) ~ "HUMAN",
+      grepl("ECOLI", !!sym(idcol)) ~ "ECOLI",
+      grepl("YEAST", !!sym(idcol)) ~ "YEAST",
+      TRUE ~ "OTHER"
+    ))
+  #print(table(tmp$species))
+  if (keep_other) {
+    res <- tmp
+  } else {
+    res <- tmp |> dplyr::filter(!.data$species == "OTHER")
+  }
+  res <- res |> mutate(TP = (.data$species == isTP))
+  return(list(data = res , table = table(tmp$species)))
+}
+
+```
+
+```{r}
+x1 <- filter(x1, modelName == "Linear_Model_moderated")
+x2 <- filter(x2, modelName == "Linear_Model_moderated")
+x1$diff <- -x1$diff
+x1$statistic <- -x1$statistic
+x2$diff <- -x2$diff
+x2$statistic <- -x2$statistic
+
+dd1 <- tripleProt(x1, isTP = "YEAST", keep_other = FALSE, idcol="IDcolumn")
+dd2 <- tripleProt(x2, isTP = "YEAST", keep_other = FALSE, idcol="IDcolumn")
+
+benchmark1 <- prolfqua::make_benchmark(dd1$data, avgInt = "avgAbd")
+benchmark2 <- prolfqua::make_benchmark(dd2$data, avgInt = "avgAbd")
+
+
+```
+
+# Including single peptides
+
+```{r}
+benchmark1$smc$summary
+```
+
+```{r}
+benchmark1$plot_scatter()
+```
+
+```{r}
+benchmark1$plot_score_distribution()
+```
+
+
+```{r}
+benchmark1$plot_ROC(xlim = 0.3)
+```
+
+
+```{r}
+benchmark1$pAUC_summaries()
+```
+
+
+```{r}
+benchmark1$plot_precision_recall(precision_lim = 0)
+```
+
+
+# At least two peptides
+
+
+```{r}
+benchmark2$smc$summary
+```
+
+
+```{r}
+benchmark2$plot_scatter()
+```
+
+```{r}
+benchmark2$plot_score_distribution()
+```
+
+
+```{r}
+benchmark2$plot_ROC(xlim = 0.3)
+```
+
+
+```{r}
+benchmark2$pAUC_summaries()
+```
+
+
+```{r}
+benchmark2$plot_precision_recall(precision_lim = 0)
+```
+
+
+# Comparing different Software
+
+
+```{r}
+
+
+srs <- function(xx, score = c("diff", "statistic", "scaled.p.value")){
+  res <- xx |> group_by(species) |> 
+    summarize(median = median(!!sym(score) , na.rm = TRUE), 
+              mean = mean(!!sym(score), na.rm = TRUE),
+              quant095 = quantile(!!sym(score), 0.95),
+              quant09 = quantile(!!sym(score), 0.9), 
+              quant01 = quantile(!!sym(score), 0.1),
+              quant005 = quantile(!!sym(score), 0.05))
+  res$score <- score
+  return(res)
+}
+
+
+preprocess <- function(x1, name, idcol = c("fasta.id", "IDcolumn")) {
+  
+  idcol <- match.arg(idcol)
+  x2 <- x1 |> dplyr::filter(nrPeptides > 1)
+  x2table <- x2$modelName |> table()
+  
+  x1 <- dplyr::filter(x1, modelName == "Linear_Model_moderated")
+  x2 <- dplyr::filter(x2, modelName == "Linear_Model_moderated")
+  x1$diff <- -x1$diff
+  x1$statistic <- -x1$statistic
+  x2$diff <- -x2$diff
+  x2$statistic <- -x2$statistic
+  
+  dd1 <- tripleProt(x1, isTP = "YEAST", keep_other = FALSE, idcol = idcol)
+  dd2 <- tripleProt(x2, isTP = "YEAST", keep_other = FALSE, idcol = idcol)
+  
+  
+  benchmark1 <- prolfqua::make_benchmark(dd1$data, avgInt = "avgAbd")
+  benchmark2 <- prolfqua::make_benchmark(dd2$data, avgInt = "avgAbd")
+  
+  
+  res1 <- list()
+  for (score in c("diff", "statistic", "scaled.p.value")) {
+    res1[[score]] <- srs(benchmark1$data(), score = score)
+  }
+  res1 <- dplyr::bind_rows(res1)
+  res1$software <- name
+  res1$nrPep <- 1
+  
+  res2 <- list()
+  for (score in c("diff", "statistic", "scaled.p.value")) {
+    res2[[score]] <- srs(benchmark2$data(), score = score)
+  }
+  res2 <- dplyr::bind_rows(res2)
+  res2$software <- name
+  res2$nrPep <- 2
+  
+  res <- dplyr::bind_rows(res1, res2)
+  
+  
+  nr1 <- benchmark1$smc$summary
+  nr1$name <- name
+  nr1$nrPeptides <- sum(benchmark1$data()$nrPeptides)
+  nr1$nrPep <- 1
+  
+  
+  nr2 <- benchmark2$smc$summary
+  nr2$name <- name
+  nr2$nrPeptides <- sum(benchmark2$data()$nrPeptides)
+  nr2$nrPep <- 2
+  nr <- dplyr::bind_rows(list(nr1,nr2))
+  
+  roc1 <- benchmark1$pAUC_summaries()$ftable$content
+  roc1$name <- name
+  roc1$nrPep <- 1
+  roc2 <- benchmark2$pAUC_summaries()$ftable$content
+  roc2$name <- name
+  roc2$nrPep <- 2
+  
+  roc <- dplyr::bind_rows(roc1, roc2)  
+  
+  return(list(res = res , nr = nr, roc = roc))
+}
+
+```
+
+```{r}
+diff_exp_analysis <- lapply(allSpecnautXLSX, read_xlsx, sheet = 5)
+protVariance <- lapply(allSpecnautXLSX, read_xlsx, sheet = 9)
+
+
+all_res <- list()
+for (i in seq_along(diff_exp_analysis)) {
+  name <- names(diff_exp_analysis)[i]
+  all_res[[name]] <-  preprocess(diff_exp_analysis[[i]], name, idcol = "fasta.id")
+}
+
+
+diff_exp_analysis <- lapply(allSpecnautXLSXspec, read_xlsx, sheet = 5)
+protVariance <- lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9)
+
+all_res_spec <- list()
+for (i in seq_along(diff_exp_analysis)) {
+  name <- names(diff_exp_analysis)[i]
+  all_res_spec[[name]] <-  preprocess(diff_exp_analysis[[i]], name, idcol = "IDcolumn")
+}
+
+all_RES <- c(all_res, all_res_spec)
+
+stats <-  bind_rows(lapply(all_RES, function(x){x$res}))
+nr <- bind_rows(lapply(all_RES, function(x){x$nr}))
+rocs <- bind_rows(lapply(all_RES, function(x){x$roc}))
+
+
+```
+
+# Nr proteins
+
+```{r}
+nr1 <- nr |> filter(nrPep == 1)
+nr2 <- nr |> filter(nrPep == 2)
+```
+
+```{r}
+nr1 |> ggplot(aes(x = name, y = protein_Id)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+```{r}
+nr2 <- nr |> filter(nrPep == 2)
+nr2 |> ggplot(aes(x = name, y = protein_Id)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+# Nr peptides
+
+## Including single peptides
+
+```{r}
+nr1 |> ggplot(aes(x = name, y = nrPeptides)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+## two or more peptides
+
+```{r}
+nr2 |> ggplot(aes(x = name, y = nrPeptides)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+# ROC areas 10 p.value
+
+## Including single peptides
+```{r}
+
+rocs <- bind_rows(lapply(all_RES, function(x){x$roc}))
+rocs1 <- filter(rocs, nrPep == 1, what == "scaled.p.value", contrast == "B_vs_A")
+rocs1 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+
+## two or more peptides
+
+```{r}
+rocs2 <- filter(rocs, nrPep == 2, what == "scaled.p.value", contrast == "B_vs_A")
+rocs2 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+# ROC areas 10 difference
+
+
+## Including single peptides
+```{r}
+rocs1 <- filter(rocs, nrPep == 1, what == "diff", contrast == "B_vs_A")
+rocs1 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+
+## two or more peptides
+
+```{r}
+rocs2 <- filter(rocs, nrPep == 2, what == "diff", contrast == "B_vs_A")
+rocs2 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
+   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+# Difference ranges
+
+```{r fig.width=8, fig.height=8}
+
+stats <-  bind_rows(lapply(all_RES, function(x){x$res}))
+stats <- filter(stats , score == "diff")
+
+ll <- stats |> pivot_longer(cols = c("median","mean", "quant09", "quant01"), names_to = "summary")
+
+ll |> ggplot(aes(x = software, y = value, group = summary, color = summary)) +
+  geom_point() +
+  geom_line() + 
+  facet_wrap(~species + nrPep, scales = "free") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+# Look at standard deviations
+
+
+```{r}
+protVariance <- c(lapply(allSpecnautXLSX, read_xlsx, sheet = 9), lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9))
+namesX <- c(names(allSpecnautXLSX), names(allSpecnautXLSXspec))
+names(protVariance) <- c(names(allSpecnautXLSX), names(allSpecnautXLSXspec))
+names(protVariance)
+
+for (i in seq_along(protVariance)) {
+  protVariance[[i]]$name <- namesX[i]
+}
+protVariance<- bind_rows(protVariance)
+protVariance <- protVariance |> filter(Group_!="All")
+sd <- protVariance |> group_by(name, Group_) |>
+  summarize(median_sd = median(sd, na.rm = TRUE),
+            mean_sd = mean(sd, na.rm = TRUE),
+            quant005_sd = quantile(sd, 0.05 , na.rm = TRUE),
+            quant095_sd = quantile(sd, 0.95 , na.rm = TRUE)) |> ungroup()
+
+sd <- sd |> pivot_longer(cols = c("median_sd", "mean_sd", "quant005_sd", "quant095_sd"), names_to = "summary")
+
+sd |> ggplot(aes(x = name, y = value, group = summary, color = summary )) +
+  geom_point() +
+  geom_line() + 
+  facet_wrap(~Group_) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+```
+
+
+
+
