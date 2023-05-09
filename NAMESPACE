@@ -2,3 +2,4 @@
 
 export(download_benchmark_data)
 export(list_benchmark_data)
+export(sanitize_specnaut)

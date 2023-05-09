@@ -18,6 +18,7 @@ extract_subfolders <- function(url){
 #' @example
 #' xx <- list_benchmark_data()
 #' download_benchmark_data(xx, outdir = tempdir())
+#' xxd <- download_benchmark_data(xx, outdir = tempdir(), simulate = TRUE)
 list_benchmark_data <- function(
     url = "http://fgcz-ms.uzh.ch/~wolski/protriple_DIA_data/"
 ){
@@ -39,21 +40,25 @@ download_benchmark_data <- function(xx, outdir = ".",
   if (!dir.exists(outdir)) {
     stop(paste0("No directory :",outdir))
   }
-
+  res <- list()
   for (i in seq_along(xx)) {
     dirName <- names(xx)[i]
     dirName <- file.path(outdir, dirName)
     cat("Dirname : ", dirName, "\n")
     dir.create(dirName)
-    lapply(xx[[i]], function(x){
+    xdx <- sapply(xx[[i]], function(x){
       cat("in :", x, "\n");
-      cat("to :", file.path(dirName,  basename(x)), "\n");
+      to <- file.path(dirName,  basename(x))
+      cat("to :", to, "\n");
 
       if (!simulate) {
         cat("Downloading ...\n")
-        download.file(x, file.path(dirName,  basename(x)))
-      }
-    })
-  }
+        download.file(x, to)
+      };
+      return(to)
 
+    })
+    res[[dirName]] <- xdx
+  }
+  return(res)
 }

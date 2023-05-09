@@ -1,17 +1,22 @@
 library(tidyverse)
 library(prolfquapp)
+library(protriple)
 
+xx <- list_benchmark_data()
+specnautxx <- xx[grepl("spectronaut", names(xx))]
+xxspecnaut <- download_benchmark_data(specnautxx, outdir = tempdir())
+fastaxx <- xx[grepl("FASTA", names(xx))]
+xxfasta <- download_benchmark_data(fastaxx, outdir = tempdir())
 
-inputdir <- "/Users/witoldwolski/__checkout/protriple/inst/specnaut_DataBench/forWeWat33/20230117_141504_p3000_DIA_tripleProteome_90minGradient_NOimputing_meansBackgroundSignal_Report_DIAservice_v2.xls"
-inputdir <- "/Users/witoldwolski/__checkout/protriple/inst/specnaut_DataBench/forWeWat33/20230117_141554_p3000_DIA_tripleProteome_90MinGradien_defaultSettings_Report_DIAservice_v2.xls"
-#inputdir <- "/Users/witoldwolski/__checkout/protriple/inst/specnaut_DataBench/nonstaggered/20230426_074926_p3000_DIA_tripleProteome_90MinGradien_defaultSettings_NONstaggered_defaultSettings_Report.xls"
-
-fasta <- "/Users/witoldwolski/__checkout/protriple/inst/diann_DataBench/Triple_Proteome_Exp2_Grad90_V2/misc/fasta/fgcz_tripleProteome_MSV000090837_20221214.fasta"
-
-
+fasta <- xxfasta[[1]][[1]]
 fastadb <- prozor::readPeptideFasta(fasta)
-zipdir <- basename(inputdir)
-GRP2 <- prolfquapp::make_DEA_config(ZIPDIR = paste0("specnaut_",zipdir))
+
+inputdir <- xxspecnaut[[1]][[4]]
+zipdir <- gsub(".zip", "", basename(inputdir))
+
+benchresults <- file.path(".", "benchresults")
+dir.create(benchresults)
+GRP2 <- prolfquapp::make_DEA_config(ZIPDIR = file.path(benchresults, paste0("specnaut_",zipdir)))
 GRP2$pop$transform = "none"
 ###
 dir.create(GRP2$zipdir)
@@ -19,58 +24,26 @@ dir.create(GRP2$zipdir)
 # reading foreign data
 REPEATED <- TRUE
 
-prec <- read_tsv(inputdir)
-prec$R.FileName |> unique()
-prec <- prec |> select(R.FileName,
-                       PG.ProteinAccessions,
-                       PG.ProteinDescriptions,
-                       EG.StrippedSequence,
-                       EG.ModifiedSequence,
-                       EG.PrecursorId,
-                       EG.Qvalue,
-                       FG.Quantity)
+file <- grep(".xls",unzip(inputdir, list = TRUE)$Name, value = TRUE)
+prec <- read_tsv(unz(inputdir, filename = file))
 
-prec <- prec |> tidyr::separate(PG.ProteinAccessions, "protID", sep=";", remove=FALSE)
-
-
-
-hist(log(prec$FG.Quantity))
-hist(prec$FG.Quantity[prec$FG.Quantity < 2000], breaks = 1000 , ylim = c(0,100))
-abline(v = 50, col=2)
-prec <- prec |> filter(FG.Quantity > 50)
-hist(prec$FG.Quantity[prec$FG.Quantity < 2000], breaks = 1000 , ylim = c(0,100))
-
-peptide <- prec |>
-  group_by(R.FileName, PG.ProteinAccessions, protID, PG.ProteinDescriptions, EG.StrippedSequence) |>
-  summarize(n = n(), Quantity = sum(FG.Quantity, na.rm = TRUE), Qvalue = min(EG.Qvalue, na.rm = TRUE)) |>
-  ungroup()
-
-is_grouped_df(peptide)
-
-
-nrpepprot <- peptide |>
-  select(PG.ProteinAccessions, EG.StrippedSequence) |>
-  distinct() |>
-  group_by(PG.ProteinAccessions) |>
-  summarize(nrPeptides = n())
-
-plot(table(nrpepprot$nrPeptides), xlim = c(1,100))
-
-
-peptide <- inner_join(nrpepprot, peptide, multiple = "all")
-peptide$raw.file <- peptide$R.FileName
+peptide <- sanitize_specnaut(prec)
+peptide$reference <- grepl("HUMAN", peptide$protID)
 
 prot_annot <- prolfquapp::dataset_protein_annot(
   peptide,
-  "protID",
+  c("protein_Id" = "protID"),
   protein_annot = "PG.ProteinDescriptions",
-  more_columns = c("PG.ProteinAccessions","nrPeptides"))
+  more_columns = c("PG.ProteinAccessions","nrPeptides", "reference"))
+
+GRP2$pop$internal <- prot_annot |> filter(reference == TRUE)
+GRP2$pop$transform = "robscale"
+
 
 annot <- data.frame(raw.file = peptide$R.FileName |> unique())
 annot <- annot |> mutate(Name = gsub(".+_LFQ", "LFQ", raw.file))
 annot <- annot |> mutate(GroupingVar = case_when(grepl("_A_", Name) ~ "A", TRUE ~ "B"))
 annot$CONTROL <- ifelse(annot$GroupingVar == "A", "C", "T")
-
 
 annot$raw.file[ !annot$raw.file %in% sort(unique(peptide$raw.file)) ]
 nr <- sum(annot$raw.file %in% sort(unique(peptide$raw.file)))
@@ -101,6 +74,7 @@ config <- prolfqua::AnalysisConfiguration$new(atable)
 adata <- prolfqua::setup_analysis(peptide, config)
 
 lfqdata <- prolfqua::LFQData$new(adata, config)
+
 lfqdata$remove_small_intensities()
 GRP2$pop$nrPeptides <- 1
 logger::log_info("AGGREGATING PEPTIDE DATA!")

@@ -8,24 +8,24 @@ editor_options:
 
 ## Running Code
 
-
 ```{r}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
 library(readxl)
 
-allSpecnautXLSX <- grep(".xlsx$",dir("/Users/witoldwolski/__checkout/prolfquapp/inst/application/FragPipeDIA/", recursive = TRUE, full.names = TRUE), value = TRUE)
-names <- gsub(".+FragPipeDIA//", "",allSpecnautXLSX) 
-names <- gsub("/DE_.*","",names)
-namesShort <- c("DIANN_Staggered", "DIANN", "FP_DIANN_Staggered", "FP_DIANN")
-allSpecnautXLSX <- as.list(allSpecnautXLSX)
-names(allSpecnautXLSX) <- namesShort
+allXLSX <- grep(".xlsx$", dir("../inst/application/specnaut/benchresults/", recursive = TRUE, full.names = TRUE), value = TRUE)
+allDIANNXLSX <- grep("DIANN_", allXLSX, value = TRUE)
+
+namesShort <- c("DIANN_314_relaxed", "DIANN_314", "DIANN_314_staggered_relaxed", "DIANN_314_staggered",
+                "DIANN_FP_19_1", "DIANN_FP_19_1_staggered", "DIANN_FP_312", "DIANN_FP_312_staggered")
+allDIANNXLSX <- as.list(allDIANNXLSX)
+names(allDIANNXLSX) <- namesShort
 
 
-allSpecnautXLSXspec <- grep(".xlsx$",dir("/Users/witoldwolski/__checkout/prolfquapp/inst/application/specnaut/", recursive = TRUE, full.names = TRUE), value = TRUE)
-names <- gsub(".+specnaut///", "",allSpecnautXLSXspec) 
-names <- gsub("\\.xls/DE_.*","",names)
-allSpecnautXLSXspec <- as.list(allSpecnautXLSXspec)
+allSpecnautXLSXspec <- grep("specnaut_", allXLSX, value=TRUE)
+allSpecnautXLSXspec <- as.list(allSpecnautXLSXspec)[2:4]
 
-namesShort <- c("SPECNAUT_NoImpute_Staggered", "SPECNAUT_default_Staggered", "SPECNAUT_default")
+namesShort <- c("SPECNAUT_default_Staggered", "SPECNAUT_default", "SPECNAUT_NoImpute_Staggered")
 names(allSpecnautXLSXspec) <- namesShort
 
 
@@ -46,14 +46,10 @@ names(diff_exp_analysis)[2]
 x1 <- diff_exp_analysis[[2]]
 ```
 
-
-
 ```{r}
 x2 <- x1 |> dplyr::filter(nrPeptides > 1)
 x2table <- x2$modelName |> table()
 ```
-
-
 
 ```{r, echo = FALSE}
 tripleProt <- function(data, isTP = "ECOLI", idcol = "fasta.id", keep_other = FALSE) {
@@ -108,29 +104,23 @@ benchmark1$plot_scatter()
 benchmark1$plot_score_distribution()
 ```
 
-
 ```{r}
 benchmark1$plot_ROC(xlim = 0.3)
 ```
-
 
 ```{r}
 benchmark1$pAUC_summaries()
 ```
 
-
 ```{r}
 benchmark1$plot_precision_recall(precision_lim = 0)
 ```
 
-
 # At least two peptides
-
 
 ```{r}
 benchmark2$smc$summary
 ```
-
 
 ```{r}
 benchmark2$plot_scatter()
@@ -140,28 +130,21 @@ benchmark2$plot_scatter()
 benchmark2$plot_score_distribution()
 ```
 
-
 ```{r}
 benchmark2$plot_ROC(xlim = 0.3)
 ```
-
 
 ```{r}
 benchmark2$pAUC_summaries()
 ```
 
-
 ```{r}
 benchmark2$plot_precision_recall(precision_lim = 0)
 ```
 
-
 # Comparing different Software
 
-
 ```{r}
-
-
 srs <- function(xx, score = c("diff", "statistic", "scaled.p.value")){
   res <- xx |> group_by(species) |> 
     summarize(median = median(!!sym(score) , na.rm = TRUE), 
@@ -242,8 +225,9 @@ preprocess <- function(x1, name, idcol = c("fasta.id", "IDcolumn")) {
 ```
 
 ```{r}
-diff_exp_analysis <- lapply(allSpecnautXLSX, read_xlsx, sheet = 5)
-protVariance <- lapply(allSpecnautXLSX, read_xlsx, sheet = 9)
+
+diff_exp_analysis <- lapply(allDIANNXLSX, read_xlsx, sheet = 5)
+protVariance <- lapply(allDIANNXLSX, read_xlsx, sheet = 9)
 
 
 all_res <- list()
@@ -284,7 +268,6 @@ nr1 |> ggplot(aes(x = name, y = protein_Id)) + geom_bar(stat="identity") +
 
 ```
 
-
 ```{r}
 nr2 <- nr |> filter(nrPep == 2)
 nr2 |> ggplot(aes(x = name, y = protein_Id)) + geom_bar(stat="identity") +
@@ -302,7 +285,7 @@ nr1 |> ggplot(aes(x = name, y = nrPeptides)) + geom_bar(stat="identity") +
 
 ```
 
-## two or more peptides
+## Two or more peptides
 
 ```{r}
 nr2 |> ggplot(aes(x = name, y = nrPeptides)) + geom_bar(stat="identity") +
@@ -310,10 +293,10 @@ nr2 |> ggplot(aes(x = name, y = nrPeptides)) + geom_bar(stat="identity") +
 
 ```
 
-
-# ROC areas 10 p.value
+# ROC areas 10% - p.value
 
 ## Including single peptides
+
 ```{r}
 
 rocs <- bind_rows(lapply(all_RES, function(x){x$roc}))
@@ -322,8 +305,7 @@ rocs1 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-
-## two or more peptides
+## Two or more peptides
 
 ```{r}
 rocs2 <- filter(rocs, nrPep == 2, what == "scaled.p.value", contrast == "B_vs_A")
@@ -331,16 +313,15 @@ rocs2 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
-# ROC areas 10 difference
-
+# ROC areas 10% - difference
 
 ## Including single peptides
+
 ```{r}
 rocs1 <- filter(rocs, nrPep == 1, what == "diff", contrast == "B_vs_A")
 rocs1 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
-
 
 ## two or more peptides
 
@@ -350,7 +331,6 @@ rocs2 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
-
 
 # Difference ranges
 
@@ -369,9 +349,7 @@ ll |> ggplot(aes(x = software, y = value, group = summary, color = summary)) +
 
 ```
 
-
 # Look at standard deviations
-
 
 ```{r}
 protVariance <- c(lapply(allSpecnautXLSX, read_xlsx, sheet = 9), lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9))
@@ -399,7 +377,3 @@ sd |> ggplot(aes(x = name, y = value, group = summary, color = summary )) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
-
-
-
-
