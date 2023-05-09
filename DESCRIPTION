@@ -3,7 +3,7 @@ Type: Package
 Title: Benchmarking upstream data processing software using triple proteome datasets and prolfqua
 Version: 0.1.0
 Author: Witold Wolski <wew@fgcz.ethz.ch>
-Maintainer:  Witold Wolski <wew@fgcz.ethz.ch>
+Maintainer: Witold Wolski <wew@fgcz.ethz.ch>
 Description: Benchmarking upstream data processing software using triple proteome datasets and prolfqua
 License: What license is it under?
 Encoding: UTF-8
@@ -12,3 +12,4 @@ Imports:
   rvest,
   prolfqua,
   prolfquapp
+RoxygenNote: 7.2.3

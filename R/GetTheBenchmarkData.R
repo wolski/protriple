@@ -11,6 +11,9 @@ extract_subfolders <- function(url){
 
 
 #' download benchmark datasets to outdir which must exist
+#' @param url data to benchmark http://fgcz-ms.uzh.ch/~wolski/protriple_DIA_data/"
+#' @param outdir destination folder
+#' @param simulate default FALSE (download data)
 #' @export
 #' @example
 #' downloadBenchmarks(simulate = FALSE, outdir = tempdir())
