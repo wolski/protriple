@@ -8,3 +8,7 @@ Description: Benchmarking upstream data processing software using triple proteom
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+  rvest,
+  prolfqua,
+  prolfquapp

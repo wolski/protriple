@@ -10,8 +10,17 @@ extract_subfolders <- function(url){
 }
 
 
-
-downloadBenchmarks <- function(url,  outdir = "."){
+#' download benchmark datasets to outdir which must exist
+#' @export
+#' @example
+#' downloadBenchmarks(simulate = FALSE, outdir = tempdir())
+downloadBenchmarks <- function(
+    url = "http://fgcz-ms.uzh.ch/~wolski/protriple_DIA_data/",
+                               outdir = ".",
+    simulate = FALSE){
+  if (!dir.exists(outdir)) {
+    stop(paste0("No directory :",outdir))
+  }
   tmp <- extract_subfolders(url)
   names(tmp) <- basename(tmp)
   xx <- lapply(tmp, extract_subfolders)
@@ -19,12 +28,16 @@ downloadBenchmarks <- function(url,  outdir = "."){
   for (i in seq_along(xx)) {
     dirName <- names(xx)[i]
     dirName <- file.path(outdir, dirName)
+    cat("Dirname : ", dirName, "\n")
     dir.create(dirName)
-    print(dirName)
     lapply(xx[[i]], function(x){
       cat("in :", x, "\n");
       cat("to :", file.path(dirName,  basename(x)), "\n");
-      download.file(x, file.path(dirName,  basename(x)))
+
+      if (!simulate) {
+        cat("Downloading ...\n")
+        download.file(x, file.path(dirName,  basename(x)))
+      }
     })
   }
 
