@@ -2,7 +2,9 @@ library(tidyverse)
 library(prolfquapp)
 library(protriple)
 
+debug(list_benchmark_data)
 xx <- list_benchmark_data()
+
 specnautxx <- xx[grepl("spectronaut", names(xx))]
 xxspecnaut <- download_benchmark_data(specnautxx, outdir = tempdir())
 fastaxx <- xx[grepl("FASTA", names(xx))]

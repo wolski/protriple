@@ -9,7 +9,6 @@ extract_subfolders <- function(url){
   return(urls)
 }
 
-
 #' download benchmark datasets to outdir which must exist
 #' @param url data to benchmark http://fgcz-ms.uzh.ch/~wolski/protriple_DIA_data/"
 #' @param outdir destination folder

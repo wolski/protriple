@@ -1,15 +1,23 @@
 ---
 title: "Benchmark Spectronaut, FragPipe DIANN and DIANN data"
+execute:
+  echo: false
 format: html
-editor: visual
 editor_options: 
   chunk_output_type: console
 ---
 
-## Running Code
+## Benchmark pipeline
+
+-   Run spectronaut, DIANN, FragPipe DIANN (SpecLib)
+
+-   Send data through DEA with *prolfqua*
+
+-   Label proteins by HUMAN, ECOLI, YEAST and look at various statistics
 
 ```{r}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+#| echo: false
+#| message: false
 
 library(readxl)
 
@@ -39,6 +47,9 @@ protVariance <- lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9)
 Number of DEA results when also Proteins with single peptide.
 
 ```{r}
+#| echo: false
+#| message: false
+
 
 library(tidyverse)
 names(diff_exp_analysis)[2]
@@ -47,11 +58,17 @@ x1 <- diff_exp_analysis[[2]]
 ```
 
 ```{r}
+#| echo: false
+#| message: false
+
 x2 <- x1 |> dplyr::filter(nrPeptides > 1)
 x2table <- x2$modelName |> table()
 ```
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
+#| message: false
+
 tripleProt <- function(data, isTP = "ECOLI", idcol = "fasta.id", keep_other = FALSE) {
   tmp <- data |>
     ungroup() |>
@@ -74,6 +91,9 @@ tripleProt <- function(data, isTP = "ECOLI", idcol = "fasta.id", keep_other = FA
 ```
 
 ```{r}
+#| echo: false
+#| message: false
+
 x1 <- filter(x1, modelName == "Linear_Model_moderated")
 x2 <- filter(x2, modelName == "Linear_Model_moderated")
 x1$diff <- -x1$diff
@@ -145,6 +165,9 @@ benchmark2$plot_precision_recall(precision_lim = 0)
 # Comparing different Software
 
 ```{r}
+#| echo: false
+#| message: false
+
 srs <- function(xx, score = c("diff", "statistic", "scaled.p.value")){
   res <- xx |> group_by(species) |> 
     summarize(median = median(!!sym(score) , na.rm = TRUE), 
@@ -225,6 +248,8 @@ preprocess <- function(x1, name, idcol = c("fasta.id", "IDcolumn")) {
 ```
 
 ```{r}
+#| echo: false
+#| message: false
 
 diff_exp_analysis <- lapply(allDIANNXLSX, read_xlsx, sheet = 5)
 protVariance <- lapply(allDIANNXLSX, read_xlsx, sheet = 9)
@@ -335,6 +360,8 @@ rocs2 |> ggplot(aes(x = name, y = pAUC_10)) + geom_bar(stat="identity") +
 # Difference ranges
 
 ```{r fig.width=8, fig.height=8}
+#| echo: false
+#| message: false
 
 stats <-  bind_rows(lapply(all_RES, function(x){x$res}))
 stats <- filter(stats , score == "diff")
@@ -351,7 +378,10 @@ ll |> ggplot(aes(x = software, y = value, group = summary, color = summary)) +
 
 # Look at standard deviations
 
-```{r}
+```{r  fig.width=8, fig.height=8}
+#| echo: false
+#| message: false
+
 protVariance <- c(lapply(allSpecnautXLSX, read_xlsx, sheet = 9), lapply(allSpecnautXLSXspec, read_xlsx, sheet = 9))
 namesX <- c(names(allSpecnautXLSX), names(allSpecnautXLSXspec))
 names(protVariance) <- c(names(allSpecnautXLSX), names(allSpecnautXLSXspec))

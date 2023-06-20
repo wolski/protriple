@@ -1,0 +1,35 @@
+---
+title: "Layout"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+colnames <- c("Dataset", "Software", "Version", "Parameters", "Data")
+Dataset <- c("TripleProteome 30 min staggered", "Triple Proteome 90 min", "Triple Proteome 90 min staggered" )
+Software <- c("DIANN",  "Spectronaut")
+Version <- data.frame(Software = c("DIANN", "DIANN"), Version = c("1.8.1", "1.8.2"))
+Version
+
+
+rep(Dataset, length(Software))
+
+
+Parameters <- c("Default", "",  "FragPipeSpeclib" , "Prosit_C30", "AlphaPep_C30")
+
+
+
+
+
+
+
+
+```
