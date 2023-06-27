@@ -1,9 +1,10 @@
 #cut -f2,3,4,7,10,19,20,25,26,27 triple_prot.report-lib.tsv > triple_prot.report-lib.min.tsv
+cut  -f1-29 triple_prot.report-lib.tsv > triple_prot.report-lib.fix.tsv
 
 library(prozor)
 library(readr)
 library(data.table)
-library(tidyverse)
+#library(tidyverse)
 
 
 input_file <- "triple_prot.report-lib.prosit.csv"
@@ -12,7 +13,7 @@ prefix <- strsplit(input_file, "\\.")[[1]][1]
 prosit <- readr::read_csv(input_file)
 
 
-if (TRUE) {
+if (FALSE) {
   upeptide <- unique(prosit$modified_sequence)
   fastaDB <-
     prozor::readPeptideFasta(fasta_input)
@@ -38,10 +39,8 @@ dim(prosit)
 report_lib_min_tsv <- fread("triple_prot.report-lib.min.tsv")
 
 modseq <- report_lib_min_tsv |> select(PeptideSequence, ModifiedPeptide) |> distinct()
-
-dim(modseq)
-modseq$ModifiedPeptide <- gsub("\\(","\\[", modseq$ModifiedPeptide)
-modseq$ModifiedPeptide <- gsub("\\)","\\]", modseq$ModifiedPeptide)
+#modseq$ModifiedPeptide <- gsub("\\(","\\[", modseq$ModifiedPeptide)
+#modseq$ModifiedPeptide <- gsub("\\)","\\]", modseq$ModifiedPeptide)
 
 prosit <- inner_join(modseq , prosit,  by = c(PeptideSequence = "peptideSeq") )
 
