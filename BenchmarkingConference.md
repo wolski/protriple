@@ -90,6 +90,12 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 
 
 ### 14:30 – 15:00 Keynote Izaskun Mallona From solo to community benchmarking
+- high level
+- https://viash.io/
+- omnibenchmark is a cli unix feeling,
+- Mean to be used by single user?
+- omnibenchmark.org
+
 ### 15:00 – 15:30 Keynote Salvador Capella-Gutierrez Scaling up OpenEBench to support community-driven AI model evaluation
 
 
