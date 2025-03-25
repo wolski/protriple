@@ -71,9 +71,21 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 - Mean consistency score decreases with the number of cell types you are trying to generate
 
 ### 12:00 – 12:15 Ines Hellmann, The effect of background noise and its removal on the analysis of single-cell expression data
-Contamination fraction, ambient RNA, SOUPX, 
-DecontX, CellBender
-DecontX best with ambient correction
-Does not impact cell classification or clustering.
-Spillover effect
-DecontX and CellBender - are too conservative
+- Contamination fraction, ambient RNA, SOUPX, 
+- DecontX, CellBender
+- DecontX best with ambient correction
+- Does not impact cell classification or clustering.
+- Spillover effect
+- DecontX and CellBender - are too conservative
+
+
+### 14:00 – 14:30 Keynote Malte Lücken - Defining and benchmarking open problems in single-cell analysis via community engagement
+- Open Problems
+- Decentralized benchmarking exaggerates improvements
+- Openproblems.bio
+- Luecken Nat, Biotech
+
+
+### 14:30 – 15:00 Keynote Izaskun Mallona From solo to community benchmarking
+### 15:00 – 15:30 Keynote Salvador Capella-Gutierrez Scaling up OpenEBench to support community-driven AI model evaluation
+
