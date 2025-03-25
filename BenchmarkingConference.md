@@ -84,8 +84,13 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 - Decentralized benchmarking exaggerates improvements
 - Openproblems.bio
 - Luecken Nat, Biotech
+- Learning meaningful Representations of life Shitov Gloscope best method not cited. Poster 21.
+- Benchmark flexibility
+- Salas "Optimizing Xenium In Sity data utility" Nature Methods (2025)
 
 
 ### 14:30 – 15:00 Keynote Izaskun Mallona From solo to community benchmarking
 ### 15:00 – 15:30 Keynote Salvador Capella-Gutierrez Scaling up OpenEBench to support community-driven AI model evaluation
 
+
+https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
