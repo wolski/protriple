@@ -4,6 +4,7 @@
 - R6 classes submitted to Bioconductor -> will it be accepted
 
 ### 9:30 – 9:450 Justine Leclerc, RAI Platform—Reliable AI for Biomedicine
+- Conformal prediction - Conformal prediction is a statistical framework that provides valid measures of uncertainty for predictions made by machine learning models.
 
 ### 9:45 – 10:00 Ahmed Mahfouz Rethinking Splicing Model Performance: From Computational Success to Clinical Reality
 - Splice perdiction methods evalutated on small but real clinical dataset.
