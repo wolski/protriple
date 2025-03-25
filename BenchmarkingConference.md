@@ -3,6 +3,9 @@
 ### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
 
 ### 9:45 – 10:00 Juho Pelto, Benchmarking microbial differential abundance analysis methods by employing only real data
+- Microbiome data, compared standard DE methods with microbiome methods and t-test
+- Did not had an understanding of the data
+
 
 ### 10:00 – 10:15 Elisabetta Mereu Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
 
