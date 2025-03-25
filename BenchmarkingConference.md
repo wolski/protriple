@@ -16,6 +16,7 @@
 - https://decoupler-py.readthedocs.io/en/latest/ - is actively developed, by  Müller-Dott
 - https://github.com/saezlab/decoupler-py - should have the option to analyse lists of phospho sites.
 - https://github.com/saezlab/PHONEMeS (this is what seaz likely talked at the HUPO)
+- https://github.com/saezlab/corneto
 
 ### 11:45 – 12:00 Jiebiao Wang Benchmarking cell segmentation methods for fluorescent images in spatial omics
 - compared some AI methods with classical segmentation
