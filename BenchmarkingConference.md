@@ -1,3 +1,35 @@
+# Monday, 24 March
+### 9:00 – 9:15 Mark Robinson Introduction and Welcome
+### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
+
+### 9:45 – 10:00 Juho Pelto, Benchmarking microbial differential abundance analysis methods by employing only real data
+
+### 10:00 – 10:15 Elisabetta Mereu Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
+
+### 11:005 – 11:30 Keynote Alice McHardy Critical assessment of metagenome interpretation: community-driven benchmarking challenges for microbiome research
+- was not there actually
+
+### 11:30 – 11:45 Sophia Müller-Dott Leveraging Multi-Omics Data for the Evaluation of Kinase Activity Inference and Network Contextualisation
+- https://decoupler-py.readthedocs.io/en/latest/ - is actively developed, by  Müller-Dott
+- https://github.com/saezlab/decoupler-py - should have the option to analyse lists of phospho sites.
+- https://github.com/saezlab/PHONEMeS (this is what seaz likely talked at the HUPO)
+
+### 11:45 – 12:00 Jiebiao Wang Benchmarking cell segmentation methods for fluorescent images in spatial omics
+- compared some AI methods with classical segmentation
+
+### 12:00 – 12:15 Marmar Moussa Benchmarking pretrained language models for modeling antigen-specific TCR-CDR3 regions
+
+### 14:00 – 14:30 Keynote Jessica Jingyi Li Enhancing Reliability and Power in Single-Cell and Spatial Omics Data Analysis with Semi-Synthetic Negative and Positive Control Data
+- http://jsb.ucla.edu/about-jingyi-jessica-li
+- data simulations frameworks for DNA, RNA and scRNA as well as spatial date, can be used to generate H0 data and then to compute p-values.
+- Generalized Additive Models, and generalized mixed effect models (implemented in R.)
+
+### 14:30 – 14:45 Alexander Zelikovsky Benchmarking of software tools for wastewater genomic surveillance
+### 14:45 – 15:00 María Morales Martínez BAIHA: Addressing Sex and Gender Bias in AI for Healthcare Applications
+- did not understand
+### 15:00 – 15:15 Andre Kahles, ETH Zurich, Switzerland Benchmarking Pan-Cancer Analyses using coordinated DNA/RNA Simulations
+Again simulation framework for sequencing data, data - privacy.
+
 # Tuesday
 
 ### 9:00 – 9:30 Keynote Yue Cao BenchHub – an R ecosystem for living benchmark
@@ -23,7 +55,11 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 - Q. Do they published the list of the HV genes and why not use it as standard?
 
 
-### 11:30 – 11:45 Di Wu, Evaluation of differential expression analysis methods for metatranscriptomics data
+### 11:30 – 11:45 Di Wu, Evaluation of differential expression analysis methods for metatranscriptomics data 
+- Joined using ZOOM because of sickness - could not understand much because of her english and zoom.
+- Microbiome data
+- ZOE.2.0 study is published.
+
 
 ### 11:45 – 12:00 Josep Garnica When there is no ground truth: assessing consistency of transcriptomics-based cell type classifications using internal validation metrics
 - Apply methods to Lung Atlas, (Theis Nature Medicine).
