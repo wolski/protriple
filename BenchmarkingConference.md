@@ -1,6 +1,8 @@
 # Monday, 24 March
 ### 9:00 – 9:15 Mark Robinson Introduction and Welcome
 ### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
+- Publication: https://www.nature.com/articles/s41592-024-02298-3
+- Said that she registered the benchmark about 3 years ago.
 
 ### 9:45 – 10:00 Juho Pelto, Benchmarking microbial differential abundance analysis methods by employing only real data
 - Microbiome data, compared standard DE methods with microbiome methods and t-test
