@@ -96,7 +96,19 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 - Mean to be used by single user?
 - omnibenchmark.org
 
-### 15:00 – 15:30 Keynote Salvador Capella-Gutierrez Scaling up OpenEBench to support community-driven AI model evaluation
-
+### 15:00 – 15:30 Keynote Salvador Capella-Gutierrez: Scaling up OpenEBench to support community-driven AI model evaluation
 
 https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
+
+# Wednesday
+
+### 9:00 – 9:30 Keynote Gregory Grant: Addressing the Harsh Realities of Omics Benchmarking
+- A lot of bitching
+- 
+
+### 9:30 – 9:45 Evgenia Kriventseva: LEMMI platform for continuous benchmarking for metagenomics and amplicon profiling
+
+### 9:45 – 10:00 Cas Wognum Polaris: An industry-led initiative to critically assess machine learning in drug discovery
+
+### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
+
