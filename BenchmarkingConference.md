@@ -160,5 +160,6 @@ Igor Cervenka - bio Imaging Mass cytometry data https://biomedizin.unibas.ch/en/
 Centralized, Semicentralized, Local Benchmarks?
 
 Erik van Nijmwegen - lineage tracing methods, Molecule labelling methods
+- Special interest group in multiple societies
 
 
