@@ -152,6 +152,11 @@ Audience question: Why you and not : Open Problems, Kaggle
 Robrecht Cannoodt - developer of viash "Open Problems for Single Cell Analysis, Open Pipelines, and the processing of Tabula Sapiens v2."
 
 
+There were 3 people from Robert Ivaneks group: Cervenka, Burri, Roux
+
 Igor Cervenka - bio Imaging Mass cytometry data https://biomedizin.unibas.ch/en/persons/ewelina-bartoszek/
 [Hypirion](https://www.standardbio.com/hyperion-plus) -  is the evolution of flow cytometry, core or microscopy
+
+
+
 
