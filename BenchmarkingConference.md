@@ -122,6 +122,11 @@ https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
 - The benchmarking platform https://github.com/polaris-hub/polaris
 - https://polarishub.io/ - see code snippets on website
 - community initiatives
+- how to visualize results
+
+Audience question: Why not Kaggle?
+Audience question: Why you and not : Open Problems, Kaggle
+- focus: machine learning, drug discovery, industry
 
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
 
