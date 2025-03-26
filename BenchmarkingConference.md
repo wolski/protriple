@@ -2,7 +2,10 @@
 ### 9:00 – 9:15 Mark Robinson Introduction and Welcome
 ### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
 - Publication: https://www.nature.com/articles/s41592-024-02298-3
-- Said that she registered the benchmark about 3 years ago.
+- Said that she registered the benchmark about 3 years ago, Process where you review the design, then run the experiment and submit the results. But was like writing the paper twice. Andvantage, if there is a risk of not creating conclusive results, the article will be nevertheless published.
+- Communication with the community submitting benchmark results. Once results were obtained, a meeting was organized.
+- Community runs the pipeline, but benchmarkers make sure that the results can be replicated. 
+
 
 ### 9:45 – 10:00 Juho Pelto, Benchmarking microbial differential abundance analysis methods by employing only real data
 - Microbiome data, compared standard DE methods with microbiome methods and t-test
@@ -144,7 +147,9 @@ Audience question: Why you and not : Open Problems, Kaggle
 ## discuss with Proteobench on differential expression analysis software
 - download, run, write parameter file. Would require that you can rerun the benchmark using the parameters
 - Create a set of DE results which can be replicated (e.g. use prolfquabenchmark).
-- Allow upload of DE results and plot it. 
+- Allow upload of DE results and plot it.
+
+Robrecht Cannoodt - developer of viash "Open Problems for Single Cell Analysis, Open Pipelines, and the processing of Tabula Sapiens v2."
 
 
 Igor Cervenka - bio Imaging Mass cytometry data https://biomedizin.unibas.ch/en/persons/ewelina-bartoszek/
