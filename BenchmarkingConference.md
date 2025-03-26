@@ -110,8 +110,17 @@ https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
 - Nature Methods, benchmark section - Three stage process, register benchmark, get approved, then run it, then publish it.
 
 ### 9:30 – 9:45 Evgenia Kriventseva: LEMMI platform for continuous benchmarking for metagenomics and amplicon profiling
-
-### 9:45 – 10:00 Cas Wognum Polaris: An industry-led initiative to critically assess machine learning in drug discovery
+- Metagenomics, classifiers.
+- Reference - Texonomy - Algorithm
+- Lemmi https://lemmi.ezlab.org/
+- Long and short read data, Alternative Taxonomies, Docker Aptainer, you submit a container, 
+- https://www.biorxiv.org/content/10.1101/2025.03.06.641904v1
+  
+### 9:45 – 10:00 Cas Wognum: Polaris - An industry-led initiative to critically assess machine learning in drug discovery
+- Polaris hub on github
+- The benchmarking platform https://github.com/polaris-hub/polaris
+- https://polarishub.io/ - see code snippets on website
+- community initiatives (2 years in)
 
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
 
