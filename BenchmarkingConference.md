@@ -157,6 +157,8 @@ There were 3 people from Robert Ivaneks group: Cervenka, Burri, Roux
 Igor Cervenka - bio Imaging Mass cytometry data https://biomedizin.unibas.ch/en/persons/ewelina-bartoszek/
 [Hypirion](https://www.standardbio.com/hyperion-plus) -  is the evolution of flow cytometry, core or microscopy
 
+Centralized, Semicentralized, Local Benchmarks?
 
+Erik van Nijmwegen - lineage tracing methods, Molecule labelling methods
 
 
