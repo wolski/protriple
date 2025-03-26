@@ -104,7 +104,8 @@ https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
 
 ### 9:00 – 9:30 Keynote Gregory Grant: Addressing the Harsh Realities of Omics Benchmarking
 - A lot of bitching
-- checklist for journals publishing benchmarking, has a paper about checklists for benchmarking
+- checklist for journals publishing benchmarking, has a paper about checklists for benchmarking https://pubmed.ncbi.nlm.nih.gov/38216661/
+- Nature Methods, benchmark section - Three stage process, register benchmark, get approved, then run it, then publish it.
 
 ### 9:30 – 9:45 Evgenia Kriventseva: LEMMI platform for continuous benchmarking for metagenomics and amplicon profiling
 
