@@ -147,5 +147,6 @@ Audience question: Why you and not : Open Problems, Kaggle
 - Allow upload of DE results and plot it. 
 
 
-
+Igor Cervenka - bio Imaging Mass cytometry data https://biomedizin.unibas.ch/en/persons/ewelina-bartoszek/
+[Hypirion](https://www.standardbio.com/hyperion-plus) -  is the evolution of flow cytometry, core or microscopy
 
