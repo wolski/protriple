@@ -118,9 +118,10 @@ https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
   
 ### 9:45 – 10:00 Cas Wognum: Polaris - An industry-led initiative to critically assess machine learning in drug discovery
 - Polaris hub on github
+- Trageting machine learning first
 - The benchmarking platform https://github.com/polaris-hub/polaris
 - https://polarishub.io/ - see code snippets on website
-- community initiatives (2 years in)
+- community initiatives
 
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
 
