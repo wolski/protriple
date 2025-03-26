@@ -104,11 +104,21 @@ https://www.biorxiv.org/content/10.1101/2023.12.19.572303v2.full
 
 ### 9:00 – 9:30 Keynote Gregory Grant: Addressing the Harsh Realities of Omics Benchmarking
 - A lot of bitching
-- 
+- checklist for journals publishing benchmarking, has a paper about checklists for benchmarking
 
 ### 9:30 – 9:45 Evgenia Kriventseva: LEMMI platform for continuous benchmarking for metagenomics and amplicon profiling
 
 ### 9:45 – 10:00 Cas Wognum Polaris: An industry-led initiative to critically assess machine learning in drug discovery
 
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
+
+
+# On reflection
+## discuss with Proteobench on differential expression analysis software
+- download, run, write parameter file. Would require that you can rerun the benchmark using the parameters
+- Create a set of DE results which can be replicated (e.g. use prolfquabenchmark).
+- Allow upload of DE results and plot it. 
+
+
+
 
