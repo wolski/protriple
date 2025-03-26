@@ -84,7 +84,7 @@ Can provide contact Marlen Lauffer (DCRT/LUMC), Looked into rare diseases.
 ### 14:00 – 14:30 Keynote Malte Lücken - Defining and benchmarking open problems in single-cell analysis via community engagement
 - Open Problems
 - Decentralized benchmarking exaggerates improvements
-- Openproblems.bio
+- Openproblems.bio - https://openproblems.bio/
 - Luecken Nat, Biotech
 - Learning meaningful Representations of life Shitov Gloscope best method not cited. Poster 21.
 - Benchmark flexibility
@@ -128,6 +128,15 @@ Audience question: Why not Kaggle?
 Audience question: Why you and not : Open Problems, Kaggle
 - focus: machine learning, drug discovery, industry
 
+### 10:00 – 10:15  Bäuerle: Using a continuous benchmarking platform to compare different variant calling pipelines across Germany
+- Published : https://f1000research.com/articles/12-1125
+- Personalized medicine for oncology
+- Ilumina dragon,
+- provide reference pipeline doing variance calling
+- datavzrd snakemake, zenodo, github pages, github actions, and snakemake
+- NCBench results 
+- OSF Project - Zenodo / Google drive
+- Johannes Koester - snakemake developer
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
 
 
