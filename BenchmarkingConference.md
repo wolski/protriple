@@ -162,7 +162,17 @@ State of benchmarking
 - funding source - no funding - infastructure proposal
 
 ### 9:45 – 10:00 Xiaoqi Liang: Multi-task benchmarking of spatially resolved gene expression simulation models
+- benchmarkInsights, benchHub SRTSim, scDesign
+- sydneybiox.github
+- publication in GenomeBiology
+
+Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, Kappenberg.
+
 ### 10:00 – 10:15 Michaela Mueller: A toolbox for iterative construction and quality evaluation of large-scale single cell reference atlases
+Publication Nature Methods, Malte Luecken, Fabian Theis
+scAtlasTb - a toolbox for single cell atlas building. solo benchmarking 
+Expression based Morans I metric - spatial autocorrelation
+Altas level - Batch effect very strong compared to biology -> therfore integration is needed -> danger of overintegrating.
 
 ### 11:00 – 11:30 Keynote Moritz Herrmann : On Machine Learning as an Empirical Science: Benchmarking and Beyond
 ### 11:30 – 11:45 Joshua Ho : Incorporating metamorphic testing in bioinformatics software benchmarking
