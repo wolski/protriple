@@ -200,7 +200,7 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 - Multi Omics Quartet Project Reference Material
 
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
-
+benchmarks.esla-ai.eu health privacy challenge - camda 2025 
 
 # On reflection
 ## discuss with Proteobench on differential expression analysis software
@@ -219,5 +219,6 @@ Centralized, Semicentralized, Local Benchmarks?
 
 Erik van Nijmwegen - lineage tracing methods, Molecule labelling methods
 - Special interest group in multiple societies
+  
 
 
