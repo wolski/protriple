@@ -161,6 +161,13 @@ State of benchmarking
 - isac newton - cambridge, in person meetings, about metric development, workshop about results. blinding of results. ISMB - session biome track.
 - funding source - no funding - infastructure proposal
 
+### 9:45 – 10:00 Xiaoqi Liang: Multi-task benchmarking of spatially resolved gene expression simulation models
+### 10:00 – 10:15 Michaela Mueller: A toolbox for iterative construction and quality evaluation of large-scale single cell reference atlases
+
+### 11:00 – 11:30 Keynote Moritz Herrmann : On Machine Learning as an Empirical Science: Benchmarking and Beyond
+### 11:30 – 11:45 Joshua Ho : Incorporating metamorphic testing in bioinformatics software benchmarking
+### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
+### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
 
 # On reflection
 ## discuss with Proteobench on differential expression analysis software
