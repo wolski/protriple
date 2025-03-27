@@ -195,6 +195,10 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 - Metamorphic testing tool (2014 publication).
 
 ### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
+- Cytosine methylation
+- Methylation calling - methylation percentage
+- Multi Omics Quartet Project Reference Material
+
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
 
 
