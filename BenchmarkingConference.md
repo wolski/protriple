@@ -185,8 +185,15 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 - Niessl, Hermann, Boulesteix, Over-optimism in benchmark studies.
 - Carolin Strobel, Friedrich Leisch (2022). Performance = Method x Dataset (x Metrics)
 - Hermann, Position Why we must rethink 2024 / Benchmark results are conditional on the benchmark design
+- Instead of comparing tools, compare to baseline
 
-### 11:30 – 11:45 Joshua Ho : Incorporating metamorphic testing in bioinformatics software benchmarking
+  
+### 11:30 – 11:45 Joshua W.K. Ho : Incorporating metamorphic testing in bioinformatics software benchmarking (University of Hong-Kong)
+- test case selection problem - boundary cases finding is challenging.
+- oracle problem - mechanism to know if output correct
+- metamorphic relations - reshuffle imput expect same output, slight modifications of inputs, to solve he oracle problem.
+- Metamorphic testing tool (2014 publication). 
+
 ### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
 
