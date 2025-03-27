@@ -169,15 +169,17 @@ State of benchmarking
 Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, Kappenberg.
 
 ### 10:00 – 10:15 Michaela Mueller: A toolbox for iterative construction and quality evaluation of large-scale single cell reference atlases
-Publication Nature Methods, Malte Luecken, Fabian Theis
-scAtlasTb - a toolbox for single cell atlas building. solo benchmarking 
-Expression based Morans I metric - spatial autocorrelation
-Altas level - Batch effect very strong compared to biology -> therfore integration is needed -> danger of overintegrating.
+
+- Publication Nature Methods, Malte Luecken, Fabian Theis https://www.nature.com/articles/s41592-025-02624-3
+- scAtlasTb - a toolbox for single cell atlas building. solo benchmarking 
+- Expression based Morans I metric - spatial autocorrelation
+- Altas level - Batch effect very strong compared to biology -> therfore integration is needed -> danger of overintegrating.
 
 ### 11:00 – 11:30 Keynote Moritz Herrmann : On Machine Learning as an Empirical Science: Benchmarking and Beyond
 ### 11:30 – 11:45 Joshua Ho : Incorporating metamorphic testing in bioinformatics software benchmarking
 ### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
+
 
 # On reflection
 ## discuss with Proteobench on differential expression analysis software
@@ -186,7 +188,6 @@ Altas level - Batch effect very strong compared to biology -> therfore integrati
 - Allow upload of DE results and plot it.
 
 Robrecht Cannoodt - developer of viash "Open Problems for Single Cell Analysis, Open Pipelines, and the processing of Tabula Sapiens v2."
-
 
 There were 3 people from Robert Ivaneks group: Cervenka, Burri, Roux
 
