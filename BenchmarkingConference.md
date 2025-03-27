@@ -192,7 +192,7 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 - test case selection problem - boundary cases finding is challenging.
 - oracle problem - mechanism to know if output correct
 - metamorphic relations - reshuffle imput expect same output, slight modifications of inputs, to solve he oracle problem.
-- Metamorphic testing tool (2014 publication). 
+- Metamorphic testing tool (2014 publication).
 
 ### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
