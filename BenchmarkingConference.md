@@ -176,6 +176,16 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 - Altas level - Batch effect very strong compared to biology -> therfore integration is needed -> danger of overintegrating.
 
 ### 11:00 – 11:30 Keynote Moritz Herrmann : On Machine Learning as an Empirical Science: Benchmarking and Beyond
+- Moritz Hardt
+- imagenet, glue, superglue, coco, pascal voc - example benchmark datasets
+- anne laure Boulesteix, Manuel Eugster Neutral Comparison Studies
+- A replication crisis in ML Matthew Hutson, other important Paper - Jessica Hullman, Kapoor, Gelman Andrew, Narayana
+- Moritz Hermann, Boulesteix benchmark survival pred. methods. Briefing in Bioinformatics (2021)
+- cox proportional hazard model very competitive, no clear winner.
+- Niessl, Hermann, Boulesteix, Over-optimism in benchmark studies.
+- Carolin Strobel, Friedrich Leisch (2022). Performance = Method x Dataset (x Metrics)
+- Hermann, Position Why we must rethink 2024 / Benchmark results are conditional on the benchmark design
+
 ### 11:30 – 11:45 Joshua Ho : Incorporating metamorphic testing in bioinformatics software benchmarking
 ### 11:45 – 12:00 Xiaorou Guo : Ratio-based Quartet DNA methylation reference datasets for evaluating CpG calling performance
 ### 12:00 – 12:15 Hakime Öztürk : Benchmarking privacy preserving generative models for biological data
