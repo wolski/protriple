@@ -143,6 +143,25 @@ Audience question: Why you and not : Open Problems, Kaggle
 ### 10:00 – 10:15 Thaleia Ntiniakou: Community benchmark of centre-based multiscale modelling tools
 
 
+# Thursday 
+
+Keynote
+### 9:00 Alice McHardy: Critical assessment of metagenome interpretation: community-driven benchmarking challenges for microbiome research
+- Computational Metagenomics Genome and Taxonomic 'binning' -> represent higher lever grouping e.g. E.Coli. Then a bin is called a genome. 
+- Profiling -> gives taxa and relative abundances.
+State of benchmarking
+- no agreement of reviewers on datasets and metrics
+- CAMI -> datasets, evaluation measures, non public datasets, reproducibility
+- Multi sample with long and short reads
+- env.specific Marine Plant associated
+- [data.cami-challenge.org](https://cami-challenge.org/)
+- Substantial improvements between CAMI1 and CAMI2.
+- CAMI III human microbiome related challenges
+- camisim - simulating benchmarking data
+- isac newton - cambridge, in person meetings, about metric development, workshop about results. blinding of results. ISMB - session biome track.
+- funding source - no funding - infastructure proposal
+
+
 # On reflection
 ## discuss with Proteobench on differential expression analysis software
 - download, run, write parameter file. Would require that you can rerun the benchmark using the parameters
