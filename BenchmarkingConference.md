@@ -15,9 +15,10 @@
 ### 10:00 – 10:15 Elisabetta Mereu: Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
 - https://www.nature.com/articles/s41587-020-0469-4
 
+### 11:00 – 11:30 Matt Ritchie: Benchmarking long-read RNA-sequencing technologies with LongBench 
+- https://www.nature.com/articles/s41592-023-02026-3
+- https://github.com/XueyiDong/LongReadBenchmark
 
-### 11:005 – 11:30 Keynote Alice McHardy Critical assessment of metagenome interpretation: community-driven benchmarking challenges for microbiome research
-- was not there actually
 
 ### 11:30 – 11:45 Sophia Müller-Dott Leveraging Multi-Omics Data for the Evaluation of Kinase Activity Inference and Network Contextualisation
 - https://decoupler-py.readthedocs.io/en/latest/ - is actively developed, by  Müller-Dott
@@ -222,5 +223,5 @@ Centralized, Semicentralized, Local Benchmarks?
 Erik van Nijmwegen - lineage tracing methods, Molecule labelling methods
 - Special interest group in multiple societies
   
-
+https://github.com/mritchielab/SpatialBenchVisium
 
