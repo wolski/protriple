@@ -210,6 +210,7 @@ benchmarks.esla-ai.eu health privacy challenge - camda 2025
 
 - We are very much on track with proteobench compared with other benchmarks
 
+
 - community angagement : defining benchmark, data, scores, communicating with developers
 - replicability of benchmarks - who runs the software
   -  centralized - one infrastructure
@@ -222,6 +223,9 @@ benchmarks.esla-ai.eu health privacy challenge - camda 2025
   - simulated dataset, and why sometimes it is not possible to simulate
 - separation of concern
   - those assing software are not the same as developing it
+- Actuality - once benchmark is published it might already be outdated
+  - Methods and Software is changing
+  - software packages get updated
 - other
   - data privacy
   - simulation of data (I guess we con not simulte data)
