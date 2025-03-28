@@ -40,7 +40,7 @@
 ### 14:45 – 15:00 María Morales Martínez BAIHA: Addressing Sex and Gender Bias in AI for Healthcare Applications
 - did not understand
 ### 15:00 – 15:15 Andre Kahles, ETH Zurich, Switzerland Benchmarking Pan-Cancer Analyses using coordinated DNA/RNA Simulations
-Again simulation framework for sequencing data, data - privacy.
+- simulation framework for sequencing data, data - privacy.
 
 # Tuesday
 
