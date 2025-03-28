@@ -207,13 +207,25 @@ benchmarks.esla-ai.eu health privacy challenge - camda 2025
 
 # On reflection
 
-- community angagement
-- replicability of benchmarks
-- multiple scores - often redundant - need of end users to have a single easy to understand score is recognized
-- multiple datasets - similarity of datasets used to real-datasets - do they capture biological or technical variation
-- what is the ground truth
-
 - We are very much on track with proteobench compared with other benchmarks
+
+- community angagement : defining benchmark, data, scores, communicating with developers
+- replicability of benchmarks - who runs the software
+  -  centralized - one infrastructure
+  -  decentralized - run benchmark locally - submit results
+- multiple scores - often redundant - need of end users to have a single easy to understand score is recognized
+- datasets
+  - similarity of datasets used to real-datasets
+  - do they capture biological or technical variation
+  - what is the ground truth
+  - simulated dataset, and why sometimes it is not possible to simulate
+- separation of concern
+  - those assing software are not the same as developing it
+- other
+  - data privacy
+  - simulation of data (I guess we con not simulte data)
+  - metamorphic test
+
 
 
 ## discuss with Proteobench on differential expression analysis software
