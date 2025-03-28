@@ -206,6 +206,16 @@ Q. Methods for quantifiying dataset similarity, Marieke Stolte, Andrea Bommert, 
 benchmarks.esla-ai.eu health privacy challenge - camda 2025 
 
 # On reflection
+
+- community angagement
+- replicability of benchmarks
+- multiple scores - often redundant - need of end users to have a single easy to understand score is recognized
+- multiple datasets - similarity of datasets used to real-datasets - do they capture biological or technical variation
+- what is the ground truth
+
+- We are very much on track with proteobench compared with other benchmarks
+
+
 ## discuss with Proteobench on differential expression analysis software
 - download, run, write parameter file. Would require that you can rerun the benchmark using the parameters
 - Create a set of DE results which can be replicated (e.g. use prolfquabenchmark).
