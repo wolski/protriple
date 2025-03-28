@@ -42,6 +42,7 @@
 ### 15:00 – 15:15 Andre Kahles, ETH Zurich, Switzerland Benchmarking Pan-Cancer Analyses using coordinated DNA/RNA Simulations
 - simulation framework for sequencing data, data - privacy.
 
+  
 # Tuesday
 
 ### 9:00 – 9:30 Keynote Yue Cao BenchHub – an R ecosystem for living benchmark
