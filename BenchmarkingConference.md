@@ -12,7 +12,9 @@
 - Did not had an understanding of the data
 
 
-### 10:00 – 10:15 Elisabetta Mereu Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
+### 10:00 – 10:15 Elisabetta Mereu: Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
+- https://www.nature.com/articles/s41587-020-0469-4
+
 
 ### 11:005 – 11:30 Keynote Alice McHardy Critical assessment of metagenome interpretation: community-driven benchmarking challenges for microbiome research
 - was not there actually
