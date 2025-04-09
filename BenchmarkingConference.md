@@ -2,23 +2,23 @@
 ### 9:00 – 9:15 Mark Robinson Introduction and Welcome
 ### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
 - Publication: https://www.nature.com/articles/s41592-024-02298-3
-- Said that she registered the benchmark about 3 years ago, Process where you review the design, then run the experiment and submit the results. But was like writing the paper twice. Andvantage, if there is a risk of not creating conclusive results, the article will be nevertheless published.
+- Publication process with Nature where you review the design, then run the experiment and submit the results. Said that she registered the benchmark about 3 years ago. Andvantage, if there is a risk of not creating conclusive results, the article will be nevertheless published, which is not relevant for Benchmarking. It was like writing the paper twice. 
 - Communication with the community submitting benchmark results. Once results were obtained, a meeting was organized.
-- Community runs the pipeline, but benchmarkers make sure that the results can be replicated. 
+- Community (tool developers) run the pipeline, but benchmark team make sure that the results can be replicated.
 
 
 ### 9:45 – 10:00 Juho Pelto, Benchmarking microbial differential abundance analysis methods by employing only real data
 - Microbiome data, compared standard DE methods with microbiome methods and t-test
 - Did not had an understanding of the data
 
-
 ### 10:00 – 10:15 Elisabetta Mereu: Benchmarking Single-Cell Multiomics Integration to Enhance Cellular and Subpopulation Resolution
 - https://www.nature.com/articles/s41587-020-0469-4
+- See Figure 1 for visual summary.
 
 ### 11:00 – 11:30 Matt Ritchie: Benchmarking long-read RNA-sequencing technologies with LongBench 
 - https://www.nature.com/articles/s41592-023-02026-3
 - https://github.com/XueyiDong/LongReadBenchmark
-
+- https://github.com/XueyiDong/LongReadBenchmark/blob/master/ExpeDesign.png
 
 ### 11:30 – 11:45 Sophia Müller-Dott Leveraging Multi-Omics Data for the Evaluation of Kinase Activity Inference and Network Contextualisation
 - https://decoupler-py.readthedocs.io/en/latest/ - is actively developed, by  Müller-Dott
@@ -28,28 +28,34 @@
 
 ### 11:45 – 12:00 Jiebiao Wang Benchmarking cell segmentation methods for fluorescent images in spatial omics
 - compared some AI methods with classical segmentation
+- AI methods better then base benchmark
 
 ### 12:00 – 12:15 Marmar Moussa Benchmarking pretrained language models for modeling antigen-specific TCR-CDR3 regions
+- https://www.ou.edu/coe/cs/people/faculty/marmar-moussa
 
 ### 14:00 – 14:30 Keynote Jessica Jingyi Li Enhancing Reliability and Power in Single-Cell and Spatial Omics Data Analysis with Semi-Synthetic Negative and Positive Control Data
 - http://jsb.ucla.edu/about-jingyi-jessica-li
-- data simulations frameworks for DNA, RNA and scRNA as well as spatial date, can be used to generate H0 data and then to compute p-values.
-- Generalized Additive Models, and generalized mixed effect models (implemented in R.)
+- data simulations frameworks for DNA, RNA and scRNA as well as spatial date, can be used to generate `H_0` data and then to compute p-values.
+- Generalized Additive Models, and generalized mixed effect models, therefore implementation in R
 
 ### 14:30 – 14:45 Alexander Zelikovsky Benchmarking of software tools for wastewater genomic surveillance
+
 ### 14:45 – 15:00 María Morales Martínez BAIHA: Addressing Sex and Gender Bias in AI for Healthcare Applications
-- did not understand
+- Barcelona center of supercomputing
+
 ### 15:00 – 15:15 Andre Kahles, ETH Zurich, Switzerland Benchmarking Pan-Cancer Analyses using coordinated DNA/RNA Simulations
-- simulation framework for sequencing data, data - privacy.
+- simulation framework for sequencing data, data - privacy
+- site project
 
   
 # Tuesday
 
 ### 9:00 – 9:30 Keynote Yue Cao BenchHub – an R ecosystem for living benchmark
-- R6 classes submitted to Bioconductor -> will it be accepted
+- R6 classes submitted to Bioconductor -> will it be accepted?
 
 ### 9:30 – 9:450 Justine Leclerc, RAI Platform—Reliable AI for Biomedicine
 - Conformal prediction - Conformal prediction is a statistical framework that provides valid measures of uncertainty for predictions made by machine learning models.
+- Developed by USZ dermatology - Christoph Seiler https://www.usz.ch/team/christof-seiler/
 
 ### 9:45 – 10:00 Ahmed Mahfouz Rethinking Splicing Model Performance: From Computational Success to Clinical Reality
 - Splice perdiction methods evalutated on small but real clinical dataset.
