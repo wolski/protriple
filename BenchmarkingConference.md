@@ -1,3 +1,7 @@
+Modern benchmarking: advancing computational methods in molecular biology
+
+https://sites.google.com/view/ascona2025
+
 # Monday, 24 March
 ### 9:00 – 9:15 Mark Robinson Introduction and Welcome
 ### 9:15 – 9:45 Keynote Ana Conesa Benchmarking of long-read transcriptomics methods
